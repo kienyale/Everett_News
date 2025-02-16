@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>City Council Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">    
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <a href="#summary">Summary</a>
+        <a href="about us">About Us</a>
+    </div>
+
+    <!-- Hero Image -->
+    <img src="{{ url_for('static', filename='css/images/everett_photo.jpg') }}" 
+         alt="Everett City View" class="hero-image">
+
+    <!-- Wrapper for Video, Issue, and Summary -->
+    <div class="grid-container">
+        <!-- Video Section -->
+        <div class="video-section">
+            <div class="video-container">
+                <iframe
+                    src="https://videoplayer.telvue.com/player/cT30AQ_xtOBQF0oJM2gIVCDX9kjgfWZb/playlists/8520/media/926767?autostart=false&showtabssearch=true"
+                    title="City Council Meeting"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+
+        <!-- Issue Section -->
+        <div class="rightside-container">
+            <div class="issue-container">
+                <h2>Issues From Meetings</h2>
+                <input type="text" placeholder="Type an issue to search..." />
+
+                <ul class="search-issues">
+                    <ul><strong> Feb 1st 2025 </strong> Example Issue 1</ul>
+                    <ul><strong> Jan 25th 2025</strong> Example Issue 2</ul>
+                  <ul><strong> Jan 20th 2025</strong> Example Issue 3</ul>
+                    <ul><strong> Jan 15th 2025</strong> Example Issue 4</ul>
+                    <ul><strong> Jan 10th 2025 </strong> Example Issue 5</l>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Summary Section -->
+        <div class="summary-section">
+            <h2>Meeting Summary</h2>
+            <p>Summary will be generated and displayed here.</p>
+        </div>
+    </div>
+
+    <!-- Opinions Section -->
+    <div class="councilor-opinions">
+        <h2>Councilor Opinions on the Issue</h2>
+        <div class="councilors">
+            <!-- Councilors List (All 11) -->
+            <div class="councilor-card">
+                <img src="https://cityofeverett.com/wp-content/uploads/2022/01/Wayne-Matewsky-300w.jpg" 
+                     alt="Wayne Matewsky" class="councilor-photo">
+                <h3>Wayne Matewsky</h3>
+                <p>Ward 1</p>
+                <p><strong>Opinion on Piece:</strong> Placeholder text</p>
+            </div>
+
+            <div class="councilor-card">
+                <img src="https://cityofeverett.com/wp-content/uploads/2024/03/Stephanie-Martins-300w.webp" 
+                     alt="Stephanie Martins" class="councilor-photo">
+                <h3>Stephanie Martins</h3>
+                <p>Ward 2</p>
+                <p><strong>Opinion on Piece:</strong> Placeholder text</p>
+            </div>
+
+            <div class="councilor-card">
+                <img src="https://cityofeverett.com/wp-content/uploads/2024/03/Anthony-DiPierro-300x375-1.webp" 
+                     alt="Anthony DiPierro" class="councilor-photo">
+                <h3>Anthony DiPierro</h3>
+                <p>Ward 3</p>
+                <p><strong>Opinion on Piece:</strong> Placeholder text</p>
+            </div>
+
+            <div class="councilor-card">
+                <img src="https://cityofeverett.com/wp-content/uploads/2024/03/Holly-Garcia-300x375-1.webp" 
+                     alt="Holly Garcia" class="councilor-photo">
+                <h3>Holly Garcia</h3>
+                <p>Ward 4</p>
+                <p><strong>Opinion on Piece:</strong> Placeholder text</p>
+            </div>
+
+            <div class="councilor-card">
+                <img src="https://cityofeverett.com/wp-content/uploads/2024/03/Robert-Van-Campen-300x375-1.webp" 
+                     alt="Robert Van Campen" class="councilor-photo">
+                <h3>Robert Van Campen</h3>
+                <p>Ward 5</p>
+                <p><strong>Opinion on Piece:</strong> Placeholder text</p>
+            </div>
+
+            <div class="councilor-card">
+                <img src="https://cityofeverett.com/wp-content/uploads/2024/03/Peter-Pietrantonio-300x375-1.webp" 
+                     alt="Peter Pietrantonio" class="councilor-photo">
+                <h3>Peter Pietrantonio</h3>
+                <p>Ward 6</p>
+                <p><strong>Opinion on Piece:</strong> Placeholder text</p>
+            </div>
+
+            <div class="councilor-card">
+                <img src="https://cityofeverett.com/wp-content/uploads/2022/01/John-Hanlon-300w.jpg" 
+                     alt="John Hanlon" class="councilor-photo">
+                <h3>John Hanlon</h3>
+                <p>Ward 7</p>
+                <p><strong>Opinion on Piece:</strong> Placeholder text</p>
+            </div>
+
+            <div class="councilor-card">
+                <img src="https://cityofeverett.com/wp-content/uploads/2024/03/Guerline-Alcy-Jabouin-300x375-1.webp" 
+                     alt="Guerline Alcy Jabouin" class="councilor-photo">
+                <h3>Guerline Alcy Jabouin</h3>
+                <p>Ward 8</p>
+                <p><strong>Opinion on Piece:</strong> Placeholder text</p>
+            </div>
+
+            <div class="councilor-card">
+                <img src="https://cityofeverett.com/wp-content/uploads/2022/01/Michael-Marchese-300w.jpg" 
+                     alt="Michael Marchese" class="councilor-photo">
+                <h3>Michael Marchese</h3>
+                <p>Councilor at Large</p>
+                <p><strong>Opinion on Piece:</strong> Placeholder text</p>
+            </div>
+
+            <div class="councilor-card">
+                <img src="https://cityofeverett.com/wp-content/uploads/2024/03/Katy-Rogers300x375.webp" 
+                     alt="Katy Rogers" class="councilor-photo">
+                <h3>Katy Rogers</h3>
+                <p>Councilor at Large</p>
+                <p><strong>Opinion on Piece:</strong> Placeholder text</p>
+            </div>
+
+            <div class="councilor-card">
+                <img src="https://cityofeverett.com/wp-content/uploads/2022/01/Stephanie-Smith-300w.jpg" 
+                     alt="Stephanie Smith" class="councilor-photo">
+                <h3>Stephanie Smith</h3>
+                <p>Councilor at Large</p>
+                <p><strong>Opinion on Piece:</strong> Placeholder text</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

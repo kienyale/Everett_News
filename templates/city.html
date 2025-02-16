@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ city_name }} City Council</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About Us</a></li>
+                <li><a href="/transparency">Transparency</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" style="background-image: url('/static/images/everett_city.jpg');">
+        <div class="hero-content">
+            <h1>Welcome to Local Motion</h1>
+            <p>Your gateway to Everett's City Council insights.</p>
+        </div>
+    </section>
+
+    <main class="content-container">
+        <!-- Video Section -->
+        <section class="video-section">
+            <div class="video-box">
+                <h2>City Council Meeting</h2>
+                <iframe src="https://videoplayer.telvue.com/player/cT30AQ_xtOBQF0oJM2gIVCDX9kjgfWZb/media/926767?autostart=false&showtabssearch=true" 
+                        frameborder="0" allowfullscreen></iframe>
+                <p>Meeting Date: 01-13-2025</p>
+            </div>
+        </section>
+
+        <!-- Summary Section -->
+        <section class="summary-section">
+            <h2>Issue 1: One-Sentence Summary</h2>
+            <div class="summary-box">
+                <p>{{ summary }}</p>
+                <h3>Voting Results</h3>
+                <ul>
+                    <li><strong>Voted Yes:</strong> Martins, Matewsky</li>
+                    <li><strong>Voted No:</strong> Bob, Hi</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Councilor Opinions Section -->
+        <section class="councilors-section">
+            <h2 class="section-heading">Councilor Opinions on the Issue</h2>
+            <div class="councilors-grid">
+                {% for councilor in councilors %}
+                <div class="councilor-card">
+                    <img src="{{ councilor.photo }}" alt="{{ councilor.name }}">
+                    <h3>{{ councilor.name }}</h3>
+                    <p>Email: <a href="mailto:{{ councilor.email }}">{{ councilor.email }}</a></p>
+                    <p>"{{ councilor.opinion }}"</p>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Agenda Items Section -->
+        <aside class="agenda-section">
+            <h2>Recently Completed Agenda Items</h2>
+            <div class="agenda-container">
+                <input type="text" placeholder="Search agenda items..." class="agenda-search">
+                <ul>
+                    {% for item in agenda %}
+                    <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </aside>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Local Motion. Built by a student initiative.</p>
+    </footer>
+</body>
+</html>
