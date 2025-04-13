@@ -1,0 +1,143 @@
+{% extends 'components/base.html' %}
+
+{% block content %}
+<div class="bg-gray-50 min-h-screen pt-16">
+    <!-- Meetings Header -->
+    <div class="bg-gradient-to-r from-primary to-blue-600 py-12 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <h1 class="text-3xl md:text-4xl font-bold mb-4">City Council Meetings</h1>
+            <p class="text-xl opacity-90">Stay informed and engaged with local government meetings</p>
+        </div>
+    </div>
+
+    <!-- Meetings Calendar -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Upcoming Meetings -->
+            <div class="lg:w-1/2">
+                <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                    <h2 class="text-2xl font-bold text-primary mb-6">Upcoming Meetings</h2>
+                    
+                    <div class="space-y-4">
+                        {% for meeting in upcoming_meetings %}
+                        <div class="border-l-4 {% if meeting.is_special %}border-secondary{% else %}border-primary{% endif %} pl-4 py-2">
+                            <div class="flex justify-between items-start">
+                                <h3 class="text-lg font-semibold text-gray-800">{{ meeting.title }}</h3>
+                                <span class="px-3 py-1 rounded-full text-xs font-medium {% if meeting.is_special %}bg-secondary text-white{% else %}bg-blue-100 text-blue-800{% endif %}">
+                                    {% if meeting.is_special %}Special{% else %}Regular{% endif %}
+                                </span>
+                            </div>
+                            
+                            <div class="mt-2 space-y-2">
+                                <p class="flex items-center text-sm text-gray-600">
+                                    <svg class="h-4 w-4 text-gray-500 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    {{ meeting.date.strftime('%A, %B %d, %Y') }}
+                                </p>
+                                
+                                <p class="flex items-center text-sm text-gray-600">
+                                    <svg class="h-4 w-4 text-gray-500 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    {{ meeting.start_time }} - {{ meeting.end_time }}
+                                </p>
+                                
+                                <p class="flex items-center text-sm text-gray-600">
+                                    <svg class="h-4 w-4 text-gray-500 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    {{ meeting.location }}
+                                </p>
+                            </div>
+                            
+                            <p class="mt-2 text-sm text-gray-600">{{ meeting.description }}</p>
+                            
+                            <div class="mt-4 flex space-x-3">
+                                {% if meeting.agenda_url %}
+                                <a href="{{ meeting.agenda_url }}" class="text-sm text-primary hover:text-secondary flex items-center">
+                                    <svg class="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    Agenda
+                                </a>
+                                {% endif %}
+                                
+                                <a href="/calendar/add/{{ meeting.id }}" class="text-sm text-primary hover:text-secondary flex items-center">
+                                    <svg class="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    Add to Calendar
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Past Meetings with Recordings -->
+            <div class="lg:w-1/2">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-primary mb-6">Past Meetings</h2>
+                    
+                    <div class="space-y-6">
+                        {% for meeting in past_meetings %}
+                        <div class="border border-gray-200 rounded-lg overflow-hidden">
+                            <div class="relative bg-gray-800">
+                                <div class="aspect-w-16 aspect-h-9">
+                                    <img src="https://via.placeholder.com/640x360?text=Meeting+Recording" alt="Video thumbnail" class="object-cover">
+                                    {% if meeting.video_url %}
+                                    <a href="{{ meeting.video_url }}" class="absolute inset-0 flex items-center justify-center">
+                                        <div class="w-16 h-16 bg-primary bg-opacity-80 rounded-full flex items-center justify-center">
+                                            <svg class="h-8 w-8 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path>
+                                            </svg>
+                                        </div>
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="p-4">
+                                <div class="flex justify-between items-start">
+                                    <h3 class="text-lg font-semibold text-gray-800">{{ meeting.title }}</h3>
+                                    <span class="text-sm text-gray-500">{{ meeting.date.strftime('%B %d, %Y') }}</span>
+                                </div>
+                                
+                                <div class="mt-4 flex flex-wrap gap-2">
+                                    {% if meeting.agenda_url %}
+                                    <a href="{{ meeting.agenda_url }}" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-800 px-2 py-1 rounded flex items-center">
+                                        <svg class="h-3 w-3 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        Agenda
+                                    </a>
+                                    {% endif %}
+                                    
+                                    {% if meeting.minutes_url %}
+                                    <a href="{{ meeting.minutes_url }}" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-800 px-2 py-1 rounded flex items-center">
+                                        <svg class="h-3 w-3 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        Minutes
+                                    </a>
+                                    {% endif %}
+                                    
+                                    <a href="/meetings/{{ meeting.id }}" class="text-xs bg-primary hover:bg-blue-700 text-white px-2 py-1 rounded flex items-center">
+                                        <svg class="h-3 w-3 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        Details
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

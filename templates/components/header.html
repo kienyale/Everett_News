@@ -1,0 +1,22 @@
+<header class="site-header">
+    <div class="container">
+        <nav class="primary-nav">
+            <div class="brand">
+                <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="Local Motion Logo" class="logo">
+                <span class="brand-name">Local Motion</span>
+            </div>
+            <div class="nav-links">
+                <a href="/" class="nav-link {% if active_page == 'home' %}active{% endif %}">Home</a>
+                <a href="/meetings" class="nav-link {% if active_page == 'meetings' %}active{% endif %}">Meetings</a>
+                <a href="/issues" class="nav-link {% if active_page == 'issues' %}active{% endif %}">Issues</a>
+                <a href="/council" class="nav-link {% if active_page == 'council' %}active{% endif %}">Council</a>
+            </div>
+            <div class="nav-actions">
+                <div class="search-bar">
+                    <input type="search" placeholder="Search meetings, issues, or council members...">
+                </div>
+                <button class="btn btn-primary">Get Involved</button>
+            </div>
+        </nav>
+    </div>
+</header> 

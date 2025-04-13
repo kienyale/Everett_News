@@ -1,0 +1,19 @@
+<section class="councilor-section">
+    <h2>Council Members</h2>
+    <div class="councilors-grid">
+        {% for councilor in councilors %}
+        <div class="councilor-card">
+            <div class="councilor-image">
+                <img src="{{ councilor.photo }}" alt="{{ councilor.name }}">
+            </div>
+            <div class="councilor-info">
+                <h3>{{ councilor.name }}</h3>
+                <p class="position">{{ councilor.position }}</p>
+                <div class="opinion">
+                    <p>"{{ councilor.opinion }}"</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section> 

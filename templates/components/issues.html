@@ -1,0 +1,17 @@
+<section id="issues" class="issues-section">
+    <div class="section-header">
+        <h2>Recent Issues</h2>
+        <div class="search-container">
+            <input type="text" placeholder="Search issues..." class="search-input">
+        </div>
+    </div>
+    <div class="issues-list">
+        {% for issue in issues %}
+        <div class="issue-card">
+            <div class="issue-date">{{ issue.date }}</div>
+            <h3>{{ issue.title }}</h3>
+            <div class="issue-status {{ issue.status|lower }}">{{ issue.status }}</div>
+        </div>
+        {% endfor %}
+    </div>
+</section> 

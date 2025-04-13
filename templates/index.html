@@ -1,155 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head> 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>City Council Tracker</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">    
+<head>
+    {% include 'components/head.html' %}
+    <!-- Test comment to check if changes are detected -->
 </head>
+<body class="font-['Inter',sans-serif] bg-light text-dark">
+    {% include 'components/nav.html' %}
+    
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-primary to-blue-600 text-white text-center pt-32 pb-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <h1 class="text-2xl">Local Democracy Through Technology</h1>
+            <p class="text-xl opacity-90 max-w-2xl mx-auto">Making civic engagement accessible and transparent for every Everett resident</p>
+        </div>
+    </section>
 
-<body>
-
-    <!-- Navbar -->
-    <div class="navbar">
-        <a href="#summary">Summary</a>
-        <a href="about us">About Us</a>
-    </div>
-
-    <!-- Hero Image -->
-    <img src="{{ url_for('static', filename='css/images/everett_photo.jpg') }}" 
-         alt="Everett City View" class="hero-image">
-
-    <!-- Wrapper for Video, Issue, and Summary -->
-    <div class="grid-container">
-        <!-- Video Section -->
-        <div class="video-section">
-            <div class="video-container">
-                <iframe
-                    src="https://videoplayer.telvue.com/player/cT30AQ_xtOBQF0oJM2gIVCDX9kjgfWZb/playlists/8520/media/926767?autostart=false&showtabssearch=true"
-                    title="City Council Meeting"
-                    allowfullscreen>
-                </iframe>
+    <!-- Video Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="flex flex-col md:flex-row gap-8">
+                <!-- Video Column -->
+                <div class="md:w-2/3">
+                    <h2 class="text-3xl font-bold text-primary mb-4">
+                        Latest Charter Commission Meeting
+                        <span id="meetingDate" class="text-xl text-gray-600 ml-2">April 3, 2025</span>
+                    </h2>
+                    
+                    <div class="relative rounded-xl overflow-hidden shadow-lg bg-black">
+                        <!-- Direct MP4 video embed -->
+                        <video id="councilVideo" class="w-full aspect-video" controls preload="metadata">
+                            <source src="{{ url_for('static', filename='videos/Charter_Commission_Meeting_4.3.25_vod_solid.mp4') }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-4 mt-4">
+                        <button id="fullscreenBtn" class="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-md font-medium transition-all hover:-translate-y-1">
+                            <i class="fas fa-expand mr-2"></i>Fullscreen
+                        </button>
+                        <!-- Bookmarks for different sections of the video -->
+                        <button id="skipToAgenda" class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-md font-medium transition-all hover:-translate-y-1">
+                            <i class="fas fa-list-ul mr-2"></i>Agenda (2:00)
+                        </button>
+                        <button id="skipToPublicComment" class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-md font-medium transition-all hover:-translate-y-1">
+                            <i class="fas fa-comments mr-2"></i>Public Comment (10:00)
+                        </button>
+                        <button id="skipToVoting" class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-md font-medium transition-all hover:-translate-y-1">
+                            <i class="fas fa-vote-yea mr-2"></i>Voting (20:00)
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Meeting Info Column -->
+                <div class="md:w-1/3 bg-gray-50 p-6 rounded-xl">
+                    <h3 class="text-xl font-bold text-primary mb-4">Meeting Summary</h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-gray-800">Key Topics</h4>
+                            <ul class="list-disc list-inside text-gray-600 mt-2">
+                                {% for topic in meeting.key_topics %}
+                                <li>{{ topic }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold text-gray-800">Documents</h4>
+                            <div class="flex flex-col space-y-2 mt-2">
+                                {% if meeting.agenda_url %}
+                                <a href="{{ meeting.agenda_url }}" class="text-primary hover:text-secondary flex items-center">
+                                    <i class="fas fa-file-pdf mr-2"></i>Meeting Agenda
+                                </a>
+                                {% endif %}
+                                {% if meeting.minutes_url %}
+                                <a href="{{ meeting.minutes_url }}" class="text-primary hover:text-secondary flex items-center">
+                                    <i class="fas fa-file-alt mr-2"></i>Meeting Minutes
+                                </a>
+                                {% endif %}
+                                {% if meeting.presentations_url %}
+                                <a href="{{ meeting.presentations_url }}" class="text-primary hover:text-secondary flex items-center">
+                                    <i class="fas fa-file-powerpoint mr-2"></i>Presentations
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold text-gray-800">AI-Generated Summary</h4>
+                            <p class="text-gray-600 mt-2 text-sm">
+                                {{ meeting.ai_summary }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+    </section>
 
-        <!-- Issue Section -->
-        <div class="rightside-container">
-            <div class="issue-container">
-                <h2>Issues From Meetings</h2>
-                <input type="text" placeholder="Type an issue to search..." />
-
-                <ul class="search-issues">
-                    <ul><strong> Feb 1st 2025 </strong> Example Issue 1</ul>
-                    <ul><strong> Jan 25th 2025</strong> Example Issue 2</ul>
-                  <ul><strong> Jan 20th 2025</strong> Example Issue 3</ul>
-                    <ul><strong> Jan 15th 2025</strong> Example Issue 4</ul>
-                    <ul><strong> Jan 10th 2025 </strong> Example Issue 5</l>
-                </ul>
+    <!-- News Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-primary mb-2">Latest Updates</h2>
+                <p class="text-lg text-gray-600">Stay informed about the latest developments in your city</p>
             </div>
+            
+            {% if news_items %}
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {% for news in news_items %}
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden transition-all hover:-translate-y-2">
+                        <div class="p-6">
+                            <span class="inline-block bg-secondary text-white px-3 py-1 rounded-full text-sm mb-4">{{ news.source }}</span>
+                            <h3 class="text-xl font-bold mb-4">{{ news.title }}</h3>
+                            <p class="text-gray-700">{{ news.content }}</p>
+                            <div class="flex justify-between items-center mt-6 pt-4 border-t border-gray-100">
+                                <span class="text-sm text-gray-500">{{ news.published_date.strftime('%B %d, %Y') }}</span>
+                                {% if news.url %}
+                                <a href="{{ news.url }}" class="text-primary hover:text-secondary font-medium transition-colors" target="_blank">Read More →</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-center text-gray-500">No news items available at this time.</p>
+            {% endif %}
         </div>
+    </section>
 
-        <!-- Summary Section -->
-        <div class="summary-section">
-            <h2>Meeting Summary</h2>
-            <p>Summary will be generated and displayed here.</p>
+    <!-- Call to Action -->
+    <section class="py-16 bg-gradient-to-r from-secondary to-green-600 text-white text-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">Get Involved in Your City's Future</h2>
+            <p class="text-xl">Join our community of engaged citizens making Everett better</p>
+            <a href="/subscribe" class="inline-block bg-white text-primary font-semibold px-8 py-4 rounded-full mt-8 transition-all hover:-translate-y-1 hover:shadow-lg">Subscribe to Updates</a>
         </div>
-    </div>
+    </section>
 
-    <!-- Opinions Section -->
-    <div class="councilor-opinions">
-        <h2>Councilor Opinions on the Issue</h2>
-        <div class="councilors">
-            <!-- Councilors List (All 11) -->
-            <div class="councilor-card">
-                <img src="https://cityofeverett.com/wp-content/uploads/2022/01/Wayne-Matewsky-300w.jpg" 
-                     alt="Wayne Matewsky" class="councilor-photo">
-                <h3>Wayne Matewsky</h3>
-                <p>Ward 1</p>
-                <p><strong>Opinion on Piece:</strong> Placeholder text</p>
-            </div>
+    {% include 'components/footer.html' %}
 
-            <div class="councilor-card">
-                <img src="https://cityofeverett.com/wp-content/uploads/2024/03/Stephanie-Martins-300w.webp" 
-                     alt="Stephanie Martins" class="councilor-photo">
-                <h3>Stephanie Martins</h3>
-                <p>Ward 2</p>
-                <p><strong>Opinion on Piece:</strong> Placeholder text</p>
-            </div>
-
-            <div class="councilor-card">
-                <img src="https://cityofeverett.com/wp-content/uploads/2024/03/Anthony-DiPierro-300x375-1.webp" 
-                     alt="Anthony DiPierro" class="councilor-photo">
-                <h3>Anthony DiPierro</h3>
-                <p>Ward 3</p>
-                <p><strong>Opinion on Piece:</strong> Placeholder text</p>
-            </div>
-
-            <div class="councilor-card">
-                <img src="https://cityofeverett.com/wp-content/uploads/2024/03/Holly-Garcia-300x375-1.webp" 
-                     alt="Holly Garcia" class="councilor-photo">
-                <h3>Holly Garcia</h3>
-                <p>Ward 4</p>
-                <p><strong>Opinion on Piece:</strong> Placeholder text</p>
-            </div>
-
-            <div class="councilor-card">
-                <img src="https://cityofeverett.com/wp-content/uploads/2024/03/Robert-Van-Campen-300x375-1.webp" 
-                     alt="Robert Van Campen" class="councilor-photo">
-                <h3>Robert Van Campen</h3>
-                <p>Ward 5</p>
-                <p><strong>Opinion on Piece:</strong> Placeholder text</p>
-            </div>
-
-            <div class="councilor-card">
-                <img src="https://cityofeverett.com/wp-content/uploads/2024/03/Peter-Pietrantonio-300x375-1.webp" 
-                     alt="Peter Pietrantonio" class="councilor-photo">
-                <h3>Peter Pietrantonio</h3>
-                <p>Ward 6</p>
-                <p><strong>Opinion on Piece:</strong> Placeholder text</p>
-            </div>
-
-            <div class="councilor-card">
-                <img src="https://cityofeverett.com/wp-content/uploads/2022/01/John-Hanlon-300w.jpg" 
-                     alt="John Hanlon" class="councilor-photo">
-                <h3>John Hanlon</h3>
-                <p>Ward 7</p>
-                <p><strong>Opinion on Piece:</strong> Placeholder text</p>
-            </div>
-
-            <div class="councilor-card">
-                <img src="https://cityofeverett.com/wp-content/uploads/2024/03/Guerline-Alcy-Jabouin-300x375-1.webp" 
-                     alt="Guerline Alcy Jabouin" class="councilor-photo">
-                <h3>Guerline Alcy Jabouin</h3>
-                <p>Ward 8</p>
-                <p><strong>Opinion on Piece:</strong> Placeholder text</p>
-            </div>
-
-            <div class="councilor-card">
-                <img src="https://cityofeverett.com/wp-content/uploads/2022/01/Michael-Marchese-300w.jpg" 
-                     alt="Michael Marchese" class="councilor-photo">
-                <h3>Michael Marchese</h3>
-                <p>Councilor at Large</p>
-                <p><strong>Opinion on Piece:</strong> Placeholder text</p>
-            </div>
-
-            <div class="councilor-card">
-                <img src="https://cityofeverett.com/wp-content/uploads/2024/03/Katy-Rogers300x375.webp" 
-                     alt="Katy Rogers" class="councilor-photo">
-                <h3>Katy Rogers</h3>
-                <p>Councilor at Large</p>
-                <p><strong>Opinion on Piece:</strong> Placeholder text</p>
-            </div>
-
-            <div class="councilor-card">
-                <img src="https://cityofeverett.com/wp-content/uploads/2022/01/Stephanie-Smith-300w.jpg" 
-                     alt="Stephanie Smith" class="councilor-photo">
-                <h3>Stephanie Smith</h3>
-                <p>Councilor at Large</p>
-                <p><strong>Opinion on Piece:</strong> Placeholder text</p>
-            </div>
-        </div>
-    </div>
-
+    <!-- Video control script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.getElementById('councilVideo');
+            
+            // Time markers in seconds - adjusted for a typical meeting length
+            const timeMarkers = {
+                agenda: 120,        // 2 minutes in (agenda reading)
+                publicComment: 600,  // 10 minutes in (public comment period)
+                voting: 1200         // 20 minutes in (voting section)
+            };
+            
+            // Skip to time markers
+            document.getElementById('skipToAgenda').addEventListener('click', function() {
+                video.currentTime = timeMarkers.agenda;
+                video.play();
+            });
+            
+            document.getElementById('skipToPublicComment').addEventListener('click', function() {
+                video.currentTime = timeMarkers.publicComment;
+                video.play();
+            });
+            
+            document.getElementById('skipToVoting').addEventListener('click', function() {
+                video.currentTime = timeMarkers.voting;
+                video.play();
+            });
+            
+            // Fullscreen toggle
+            document.getElementById('fullscreenBtn').addEventListener('click', function() {
+                if (video.requestFullscreen) {
+                    video.requestFullscreen();
+                } else if (video.webkitRequestFullscreen) { /* Safari */
+                    video.webkitRequestFullscreen();
+                } else if (video.msRequestFullscreen) { /* IE11 */
+                    video.msRequestFullscreen();
+                }
+            });
+            
+            // Extract date from video filename
+            function extractDateFromFilename() {
+                // Get the source URL
+                const videoSource = video.querySelector('source').src;
+                
+                // Extract date using regex pattern (format: Charter_Commission_Meeting_M.D.YY_vod_solid.mp4)
+                // Or: Charter_Commission_Meeting_(month)_(day)_(year)
+                const dateMatch = videoSource.match(/Charter_Commission_Meeting_(\d+)\.(\d+)\.(\d+)/);
+                
+                if (dateMatch) {
+                    const month = parseInt(dateMatch[1], 10);
+                    const day = parseInt(dateMatch[2], 10);
+                    let year = parseInt(dateMatch[3], 10);
+                    
+                    // Handle 2-digit year format
+                    if (year < 100) {
+                        year = 2000 + year; // Assume years are in the 21st century
+                    }
+                    
+                    // Create a Date object
+                    const meetingDate = new Date(year, month - 1, day);
+                    
+                    // Format the date for display
+                    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                    const formattedDate = meetingDate.toLocaleDateString('en-US', options);
+                    
+                    // Update the date display
+                    document.getElementById('meetingDate').textContent = formattedDate;
+                }
+            }
+            
+            // Call the function to extract and display the date
+            extractDateFromFilename();
+        });
+    </script>
 </body>
 </html>

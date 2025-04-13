@@ -1,24 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transparency</title>
-    <link rel="stylesheet" href="/static/css/style.css">
+    {% include 'components/head.html' %}
 </head>
-<body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/about">About Us</a></li>
-                <li><a href="/transparency">Transparency</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <h1>Transparency</h1>
-        <p>We leverage AI to analyze and summarize city council data while ensuring accuracy and trustworthiness.</p>
-    </main>
+<body class="font-['Inter',sans-serif] bg-light text-dark">
+    {% include 'components/nav.html' %}
+    
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-primary to-blue-600 text-white text-center pt-32 pb-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Transparency</h1>
+            <p class="text-xl opacity-90 max-w-2xl mx-auto">How we're making local government more transparent</p>
+        </div>
+    </section>
+
+    <!-- Transparency Content -->
+    <section class="py-16 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+            <h2 class="text-3xl font-bold text-primary mb-8">Our Approach to Transparency</h2>
+            <p class="text-lg mb-6">We believe that government data and proceedings should be accessible to everyone. Here's how we're working to achieve that goal.</p>
+            
+            <!-- Add more content as needed -->
+        </div>
+    </section>
+
+    {% include 'components/footer.html' %}
 </body>
 </html>
