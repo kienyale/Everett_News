@@ -16,6 +16,12 @@ class Meeting(db.Model):
     video_url = db.Column(db.String(255), nullable=True)
     is_special = db.Column(db.Boolean, default=False)
     status = db.Column(db.String(50), default='scheduled')  # scheduled, completed, cancelled
+    key_topics = db.Column(db.Text, nullable=True)  # Store as JSON string
     
     def __repr__(self):
-        return f'<Meeting {self.title} on {self.date}>' 
+        return f'<Meeting {self.title} on {self.date}>'
+    
+    @property
+    def key_topics_list(self):
+        import json
+        return json.loads(self.key_topics) if self.key_topics else [] 
